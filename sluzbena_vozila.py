@@ -12,28 +12,62 @@ class Avto():
         print str(stej) + ") " + self.znamka + " " + self.model + " prevoženih " + self.km + " km, zadnji servis:" + self.servis
 
 def dodaj_avto(seznam):
-    while True:
+    zakljuci = False
+    while zakljuci ==  False:
         znamka = raw_input("Vnesi znamko avtomobila:")
         tip = raw_input("Vnesi tip avtomobila:")
         kilometer = raw_input("Vnesi kilometre avtomobila:")
         zservis = raw_input("Vnesi datum zadnjega servisa:")
         seznam.append(Avto(znamka.title(), tip.title(), kilometer, zservis))
-        odg = raw_input("Zelis dodati se kaksno vozilo? Da/ne:")
-        if odg.lower() == "da" or odg.lower() == "d":
-            print " "
-        else:
-            break
+        while True:
+            odg = raw_input("Zelis dodati se kaksno vozilo? da/ne:")
+            if odg.lower() == "da" or odg.lower() == "d":
+                print " "
+                break
+            elif odg.lower() == "ne" or odg.lower() == "n":
+                zakljuci = True
+                return zakljuci
+            else:
+                print ""
+                print 'Prosim izberite "da" ali "ne"!'
+                print ""
 
 def izpis_seznama(avtomobili):
     for stej, a in enumerate(avtomobili):
         a.izpis_vozila(stej + 1)
 
 def izbrisi_avto(seznam):
+    zakljuci = False
     if len(seznam) == 0:
         print "V seznamu ni avtomobilov!"
     else:
-        print len(seznam)
+        while zakljuci == False:
+            for stej, a in enumerate(seznam, 1):
+                print str(stej) + ") " + a.znamka + "-" + a.model + " / " + a.km + "km" + " / " + a.servis
 
+            print ""
+            print 'q) Izhod'
+            print ""
+            izbor = raw_input('Katero vozilo bi želel izbrisati (vpiši zaporedno št.)? Za izhod izberite "q": ')
+            if izbor == "q":
+                break
+            elif int(izbor) >= int(len(seznam)):
+                print "\nIzbrano število ni iz seznama! Prosim vnesite pravilno vrednost (število od 1 do %s):\n" % len(seznam)
+            else:
+                while True:
+                    zakljuci = False
+                    del seznam[izbor - 1]
+                    da_ne = raw_input("Želiš izbrisati še kakšno vozilo (da/ne)? ")
+
+                    if da_ne == "da":
+                        break
+                    elif da_ne == "ne":
+                        zakljuci = True
+                        return zakljuci
+                    else:
+                        print ""
+                        print 'Prosim izberite "da" ali "ne"!'
+                        print ""
 
 ############### Začetek aplikacije ####################
 
@@ -73,7 +107,7 @@ while True:
     elif selection == "3":
         print "datum"
     elif selection == "4":
-        print "dodaj"
+        dodaj_avto(vozila)
     elif selection == "5":
         izbrisi_avto(vozila)
     elif selection == "q":

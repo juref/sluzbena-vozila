@@ -1,2 +1,10 @@
 Renault,Clio,12450,12.12.2019
 Opel,Corsa,12450,12.12.2019
+Renault,Clio,12450,12.12.2019
+Opel,Corsa,12450,12.12.2019
+Renault,Clio,12450,12.12.2019
+Opel,Corsa,12450,12.12.2019
+Renault,Clio,12450,12.12.2019
+Opel,Corsa,12450,12.12.2019
+Renault,Clio,12450,12.12.2019
+Opel,Corsa,12450,12.12.2019
