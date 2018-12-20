@@ -9,7 +9,7 @@ class Avto():
         self.servis = servis_avta
 
     def izpis_vozila(self, stej): # stej doda stevilo pred izpis za lažje izbiranje v nadaljnih korakih
-        print str(stej) + ") " + self.znamka + " " + self.model + " prevoženih " + self.km + " km, zadnji servis:" + self.servis
+        print str(stej) + ") " + self.znamka + " - " + self.model + " / " + self.km + " km" + " / zadnji servis: " + self.servis
 
 def dodaj_avto(seznam):
     zakljuci = False
@@ -46,15 +46,15 @@ def izbrisi_avto(seznam):
     else:
         while zakljuci == False:
             for stej, a in enumerate(seznam, 1):
-                print str(stej) + ") " + a.znamka + "-" + a.model + " / " + a.km + "km" + " / " + a.servis
+                print str(stej) + ") " + a.znamka + " - " + a.model + " / " + a.km + " km" + " / zadnji servis: " + a.servis
 
             print ""
-            print 'q) Izhod'
+            print 'x) Izhod'
             print ""
-            izbor = raw_input('Katero vozilo bi želel izbrisati (vpiši zaporedno št.)? Za izhod izberite "q": ')
-            if izbor == "q":
+            izbor = raw_input('Katero vozilo bi želel izbrisati (vpiši zaporedno št.)? Za izhod izberite "x": ')
+            if izbor == "x":
                 break
-            elif int(izbor) >= int(len(seznam)):
+            elif int(izbor) >= (len(seznam)):
                 print "\nIzbrano število ni iz seznama! Prosim vnesite pravilno vrednost (število od 1 do %s):\n" % len(seznam)
             else:
                 while True:
@@ -76,11 +76,82 @@ def shrani_txt(seznam, txt_datoteka):
     for a in seznam:
         txt_datoteka.write(a.znamka + "," + a.model + "," + a.km + "," + a.servis + "\n")
 
+def pritisni_tipko():
+    raw_input("\npritisni katerokoli tipko za nadaljevanje!")
+
+def uredi_km(seznam):
+    zakljuci = False
+    if len(seznam) == 0:
+        print "V seznamu ni avtomobilov!"
+    else:
+        while zakljuci == False:
+            for stej, a in enumerate(seznam, 1):
+                print str(stej) + ") " + a.znamka + " - " + a.model + " / " + a.km + " km" + " / zadnji servis: " + a.servis
+            print ""
+            print 'x) Izhod'
+            print ""
+            izbor = raw_input('Kateremu vozilu želiš spremeniti število prevoženih kilometrom (vpiši zaporedno št.)? Za izhod izberite "x": ')
+            if izbor == "x":
+                break
+            elif int(izbor) > len(seznam):
+                print izbor
+                print len(seznam)
+                print "\nIzbrano število ni iz seznama! Prosim vnesite pravilno vrednost (število od 1 do %s):\n" % len(seznam)
+            else:
+                while True:
+                    zakljuci = False
+                    novi_km = raw_input("Vnesi novo število prevoženih kilometrom: ")
+                    seznam[int(izbor) - 1].km = str(novi_km)
+                    da_ne = raw_input("Želiš urediti število prevoženih kilometrov za še kakšno vozilo (da/ne)? ")
+                    if da_ne == "da":
+                        break
+                    elif da_ne == "ne":
+                        zakljuci = True
+                        return zakljuci
+                    else:
+                        print ""
+                        print 'Prosim izberite "da" ali "ne"!'
+                        print ""
+
+def uredi_datum(seznam):
+    zakljuci = False
+    if len(seznam) == 0:
+        print "V seznamu ni avtomobilov!"
+    else:
+        while zakljuci == False:
+            for stej, a in enumerate(seznam, 1):
+                print str(stej) + ") " + a.znamka + " - " + a.model + " / " + a.km + " km" + " / zadnji servis: " + a.servis
+            print ""
+            print 'x) Izhod'
+            print ""
+            izbor = raw_input('Kateremu vozilu želiš spremeniti datum zadnjega servisa (vpiši zaporedno št.)? Za izhod izberite "x": ')
+            if izbor == "x":
+                break
+            elif int(izbor) > len(seznam):
+                print izbor
+                print len(seznam)
+                print "\nIzbrano število ni iz seznama! Prosim vnesite pravilno vrednost (število od 1 do %s):\n" % len(seznam)
+            else:
+                while True:
+                    zakljuci = False
+                    novi_datum = raw_input("Vnesi nov datum zadnjega servisa: ")
+                    seznam[int(izbor) - 1].servis = str(novi_datum)
+                    da_ne = raw_input("Želiš urediti datum zadnjega servisa za še kakšno vozilo (da/ne)? ")
+                    if da_ne == "da":
+                        break
+                    elif da_ne == "ne":
+                        zakljuci = True
+                        return zakljuci
+                    else:
+                        print ""
+                        print 'Prosim izberite "da" ali "ne"!'
+                        print ""
+
 ############### Začetek aplikacije ####################
 
 print "\nDobrodošli v programu z aupravljanje službenih vozil"
 
-vozila = [] # brez tega javi error če je txt datoteka prazna!
+vozila = []
 
 txt_datoteka = open("./_txt/vozila.txt", "r+")
 
@@ -110,19 +181,25 @@ while True:
 
     if selection == "1":
         izpis_seznama(vozila)
+        pritisni_tipko()
+
     elif selection == "2":
-        print "kilometri"
+        uredi_km(vozila)
+
     elif selection == "3":
-        print "datum"
+        uredi_datum(vozila)
+
     elif selection == "4":
         dodaj_avto(vozila)
+
     elif selection == "5":
         izbrisi_avto(vozila)
+
     elif selection == "q":
         txt_data = open("./_txt/vozila.txt", "w+")
         shrani_txt(vozila, txt_data)
         print "\nHvala in nasvidenje!"
         break
+
     else:
         print "\nNapaka! Niste izbrali nobone od možnih operacij."
-
