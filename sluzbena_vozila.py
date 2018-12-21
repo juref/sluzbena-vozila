@@ -23,7 +23,7 @@ def dodaj_avto(seznam):
             odg = raw_input("Zelis dodati se kaksno vozilo? da/ne:")
             if odg.lower() == "da" or odg.lower() == "d":
                 print " "
-                break
+                breaktxt_datoteka = open("./_txt/vozila.txt", "r+")
             elif odg.lower() == "ne" or odg.lower() == "n":
                 zakljuci = True
                 return zakljuci
@@ -153,7 +153,10 @@ def main():
 
     vozila = []
 
-    txt_datoteka = open("./_txt/vozila.txt", "r+")
+    txt_datoteka = open("vozila.txt", "a")
+    txt_datoteka.close()
+
+    txt_datoteka = open("vozila.txt", "r+")
 
     vmesni_seznam = []
 
@@ -196,7 +199,7 @@ def main():
             izbrisi_avto(vozila)
 
         elif selection == "q":
-            txt_data = open("./_txt/vozila.txt", "w+")
+            txt_data = open("vozila.txt", "w+")
             shrani_txt(vozila, txt_data)
             print "Hvala in nasvidenje!"
             break
